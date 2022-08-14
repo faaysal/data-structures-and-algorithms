@@ -184,8 +184,7 @@ void deleteAtTail(Node *&head)
     if (head == NULL)
         return;
 
-    int len = getLength(head);
-    if (len == 1)
+    if (head->next == NULL)
     {
         delete head;
         head = NULL;
@@ -193,8 +192,10 @@ void deleteAtTail(Node *&head)
     }
 
     Node *node = head;
-    for (int i = 0; i < len - 2; i++)
+    while (node->next->next != NULL)
+    {
         node = node->next;
+    }
 
     Node *delNode = node->next;
     delete delNode;
