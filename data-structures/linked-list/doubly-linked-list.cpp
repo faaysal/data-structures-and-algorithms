@@ -19,12 +19,11 @@ public:
 class LinkedList
 {
 private:
+    Node *head;
+    Node *tail;
     int lengthCount;
 
 public:
-    Node *head;
-    Node *tail;
-
     LinkedList()
     {
         head = NULL;
@@ -340,11 +339,6 @@ int main()
     cout << "Display Reverse List: ";
     myList.displayReverse();
     cout << "Length: " << myList.length() << endl;
-    if (myList.head != NULL)
-    {
-        cout << "Head: " << myList.head->value << endl;
-        cout << "Tail: " << myList.tail->value << endl;
-    }
 
     cout << "Position of 15: " << myList.getPositionByValue(15) << endl;
     int *foundPositions = myList.getPositionsByValue(1000);
