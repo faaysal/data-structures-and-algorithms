@@ -45,7 +45,7 @@ public:
         return !this->length;
     }
 
-    // display
+    // display (only works for int, float, char, string, double)
     void display()
     {
         Node<T> *node = this->head;
@@ -59,7 +59,7 @@ public:
             cout << endl;
     }
 
-    // display reverse
+    // display reverse (only works for int, float, char, string, double)
     void displayReverse()
     {
         Node<T> *node = this->top;
@@ -76,9 +76,6 @@ public:
     // get top
     T getTop()
     {
-        if (this->top == NULL)
-            return (T)0;
-
         return this->top->value;
     }
 
@@ -103,9 +100,6 @@ public:
     // pop
     T pop()
     {
-        if (this->top == NULL)
-            return (T)0;
-
         Node<T> *delNode = this->top;
         T returnVal = delNode->value;
 
