@@ -36,9 +36,9 @@ public:
     {
         v.push_back(val);
 
-        int lastNonLeadIndex = (v.size() / 2) - 1;
+        int lastNonLeafIndex = (v.size() / 2) - 1;
 
-        for (int i = lastNonLeadIndex; i >= 0; i--)
+        for (int i = lastNonLeafIndex; i >= 0; i--)
         {
             heapify(v, i);
         }
