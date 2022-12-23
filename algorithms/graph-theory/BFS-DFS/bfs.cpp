@@ -24,7 +24,7 @@ Space Complexity: O(V)
 
  */
 
-void dfs(vector<int> adj_list[], int nodes, int src)
+void bfs(vector<int> adj_list[], int nodes, int src)
 {
     vector<bool> visited(nodes, false);
     queue<int> q;
@@ -67,7 +67,7 @@ int main()
         adj_list[u].push_back(v);
     }
 
-    dfs(adj_list, nodes, 4);
+    bfs(adj_list, nodes, 4);
 
     return 0;
 }
