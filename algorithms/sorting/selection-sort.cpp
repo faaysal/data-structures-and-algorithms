@@ -22,7 +22,7 @@ void sort(int arr[], int n)
 int main()
 {
     int n = 5;
-    int arr[5] = {10, 20, 5, 25, 13};
+    int arr[5] = { 10, 20, 5, 25, 13 };
     sort(arr, n);
 
     for (int i = 0; i < n; i++)
