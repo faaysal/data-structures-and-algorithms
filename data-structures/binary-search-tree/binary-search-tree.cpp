@@ -160,15 +160,6 @@ string getPath(TreeNode *root, int val)
     return str;
 }
 
-// get inorder successor of a node
-TreeNode *getInOrderSuccessor(TreeNode *root)
-{
-    while (root->left)
-        root = root->left;
-
-    return root;
-}
-
 // delete a node
 TreeNode *deleteNode(TreeNode *root, int key)
 {
@@ -193,9 +184,23 @@ TreeNode *deleteNode(TreeNode *root, int key)
 
         else
         {
-            TreeNode *inorderSuccessor = getInOrderSuccessor(root->right);
+            TreeNode *inorderSuccessor = root->right;
+            TreeNode *inorderSuccessorsParent = root;
+            while (inorderSuccessor->left)
+            {
+                inorderSuccessorsParent = inorderSuccessor;
+                inorderSuccessor = inorderSuccessor->left;
+            }
+
             root->val = inorderSuccessor->val;
-            root->right = deleteNode(root->right, inorderSuccessor->val);
+            if (inorderSuccessorsParent == root)
+            {
+                root->right = inorderSuccessor->right;
+            }
+            else
+            {
+                inorderSuccessorsParent->left = inorderSuccessor->right;
+            }
         }
     }
 
@@ -227,21 +232,21 @@ int main()
     }
 
     vector<int> v = inorder(root);
-    print(v);
-    printTree(root, 0);
+    // print(v);
+    // printTree(root, 0);
 
-    cout << "Search a val : ";
-    cin >> val;
-    TreeNode *searchedNode = search(root, val);
-    string path = getPath(root, val);
+    // cout << "Search a val : ";
+    // cin >> val;
+    // TreeNode *searchedNode = search(root, val);
+    // string path = getPath(root, val);
 
-    searchedNode ? cout << "Found: " << searchedNode->val << endl : cout << "Can't Found\n";
-    cout << "Path: " << path << endl;
+    // searchedNode ? cout << "Found: " << searchedNode->val << endl : cout << "Can't Found\n";
+    // cout << "Path: " << path << endl;
 
-    root = deleteNode(root, val);
+    root = deleteNode(root, 10);
     v = inorder(root);
     print(v);
-    printTree(root, 0);
+    // printTree(root, 0);
 
     return 0;
 }
