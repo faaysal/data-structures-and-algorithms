@@ -1,60 +1,44 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-void print(vector<int> v) {
-    for (auto i : v) {
-        cout << i << ' ';
+void merge(int a[], int b, int e, int mid) {
+  int x = e - b + 1;
+  int arr[x];
+  int idx = 0, st1 = b, st2 = mid + 1;
+  while(st1 <= mid && st2 <= e) {
+    if(a[st1] <= a[st2]) {
+      arr[idx++] = a[st1++];
     }
-    cout << '\n';
+    else {
+      arr[idx++] = a[st2++];
+    }
+  }
+  while(st1 <= mid) {
+    arr[idx++] = a[st1++];
+  }
+  while(st2 <= e) {
+    arr[idx++] = a[st2++];
+  }
+
+  for(int i = b, k = 0; i <= e; i++, k++) {
+    a[i] = arr[k];
+  }
 }
 
-vector<int> merge_sort(vector<int> v) {
-    if (v.size() <= 1) return v;
-    int mid = v.size() / 2;
-    vector<int> v1, v2;
-    for (int i = 0; i < mid; i++) {
-        v1.push_back(v[i]);
-    }
-    for (int i = mid; i < v.size(); i++) {
-        v2.push_back(v[i]);
-    }
-
-    v1 = merge_sort(v1);
-    v2 = merge_sort(v2);
-
-    // merge v1 and v2
-    vector<int> ans;
-    int i = 0, j = 0;
-    while (i < v1.size() && j < v2.size()) {
-        if (v1[i] < v2[j]) {
-            ans.push_back(v1[i]);
-            i++;
-        }
-        else {
-            ans.push_back(v2[j]);
-            j++;
-        }
-    }
-    for (; i < v1.size(); i++) {
-        ans.push_back(v1[i]);
-    }
-    for (; j < v2.size(); j++) {
-        ans.push_back(v2[j]);
-    }
-    return ans;
+void merge_sort(int a[], int b, int e) {
+  if(b == e) return;
+  int mid = (b + e) / 2;
+  merge_sort(a, b, mid);
+  merge_sort(a, mid + 1, e);
+  merge(a, b, e, mid);
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-
-    int val;
-    vector<int> v;
-    while (cin >> val) {
-        v.push_back(val);
-    }
-    v = merge_sort(v);
-    print(v);
-
+  int n = 10;
+  int a[n] = {4, 2, 3, 1, 5, 8, 7, 11, 9, 6};
+  merge_sort(a, 0, n - 1);
+  for(int i = 0; i < n; i++) {
+    cout << a[i] << ' ';
+  }
     return 0;
 }
