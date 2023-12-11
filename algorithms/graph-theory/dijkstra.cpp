@@ -1,102 +1,48 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e5 + 10;
-const long long INF = 1e18;
+const int N = 1e5 + 9, inf = 1e9;
+vector<pair<int, int>> g[N];
+vector<bool> vis(N, false);
+int dis[N];
 
 int n, m;
-int visited[N];
-int parent[N];
-long long d[N];
-vector<pair<long long, int>> graph[N];
 
-void dijkstra(int src)
-{
-    // initially INF distance
-    for (int i = 1; i <= n; i++)
-    {
-        d[i] = INF;
+void dijkstra(int u) {
+  for (int i = 1; i <= n; i++) {
+    dis[i] = inf;
+  }
+  dis[u] = 0;
+  priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+  pq.push({ 0, u });
+  while (!pq.empty()) {
+    int selected_node = pq.top().second;
+    int d = pq.top().first;
+    pq.pop();
+    if (vis[selected_node]) continue;
+    vis[selected_node] = true;
+    for (auto [v, w] : g[selected_node]) {
+      if (dis[v] > (d + w)) {
+        dis[v] = d + w;
+        pq.push({ dis[v], v });
+      }
     }
-
-    // src 0 distance
-    d[src] = 0;
-
-    priority_queue<pair<long long, int>> pq;
-    pq.push({0, src});
-
-    while (!pq.empty())
-    {
-        // take the lowest unvisited distance
-        pair<long long, int> top = pq.top();
-        pq.pop();
-
-        long long distance = -top.first;
-        int selected_node = top.second;
-
-        if (visited[selected_node] == 1)
-            continue;
-
-        visited[selected_node] = 1;
-
-        // explore lowest distance node and relaxation
-        for (auto adj : graph[selected_node])
-        {
-            int adj_node = adj.first;
-            int w = adj.second;
-            if (d[adj_node] > distance + w)
-            {
-                d[adj_node] = distance + w;
-                pq.push({-d[adj_node], adj_node});
-                parent[adj_node] = selected_node;
-            }
-        }
-    }
+  }
 }
 
-int main()
-{
-    cin >> n >> m;
+int main() {
+  cin >> n >> m;
+  while (m--) {
+    int u, v, w; cin >> u >> v >> w;
+    g[u].push_back({ v,w });
+    g[v].push_back({ u,w });
+  }
 
-    for (int i = 1; i <= n; i++)
-    {
-        parent[i] = -1;
-    }
+  dijkstra(1);
 
-    for (int i = 0; i < m; i++)
-    {
-        int u, v, w;
-        cin >> u >> v >> w;
-        graph[u].push_back({v, w});
-        graph[v].push_back({u, w});
-    }
+  for (int u = 1; u <= n; u++) {
+    cout << u << ": " << dis[u] << '\n';
+  }
 
-    dijkstra(1);
-    // for (int i = 1; i < n; i++)
-    // {
-    //     cout << i << ": " << d[i] << endl;
-    // }
-    // cout << "Distance: " << d[n] << endl;
-
-    if (d[n] == INF)
-    {
-        cout << "-1" << endl;
-        return 0;
-    }
-
-    int par = n;
-    vector<int> path;
-    while (par != -1)
-    {
-        // cout << par << endl;
-        path.push_back(par);
-        par = parent[par];
-    }
-
-    for (int i = path.size() - 1; i >= 0; i--)
-    {
-        cout << path[i] << " ";
-    }
-    cout << endl;
-
-    return 0;
+  return 0;
 }
