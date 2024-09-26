@@ -2,7 +2,7 @@
 using namespace std;
 
 // single source shortest path
-// we can use dfs to get the shortest path of unweighted graph
+// we can use bfs to get the shortest path of unweighted graph
 
 /*
 
